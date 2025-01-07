@@ -1,3 +1,5 @@
 # book-reading-list-with-react
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Book Reading List using react
+
+https://smaragdath.github.io/portfolio-in-react/
