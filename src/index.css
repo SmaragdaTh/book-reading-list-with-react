@@ -290,3 +290,6 @@ body {
   opacity: 1;
 }
 /* End checkbox styles */
+.test {
+  background-color: red;
+}
