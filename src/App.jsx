@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Book from "./components/Book";
 import Form from "./components/Form";
 import Filter from "./components/Filter";
+
+const URL = "https://jsonplaceholder.typicode.com/todos/1";
 
 const BOOKS = [
   {
@@ -28,9 +30,11 @@ const FILTERS_OBJ = {
 };
 
 function App(props) {
-  const [books, setBooks] = useState(BOOKS);
-  const [bookNumber, setBookNumber] = useState(BOOKS.length);
+  console.log("App()");
+  const [books, setBooks] = useState([]);
+  const [bookNumber, setBookNumber] = useState("");
   const [filter, setFilter] = useState("All");
+  const [counter, setCounter] = useState(0);
 
   const deleteBookHandler = (bookId) => {
     const NEWBOOKS = books.filter((book) => bookId !== book.id);
@@ -88,6 +92,22 @@ function App(props) {
       key={item}
     />
   ));
+
+  useEffect(function runOnlyOnce() {
+    console.log("[ SIDE EFFECT ] Parent");
+    fetch(URL)
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        console.log(json);
+        // setTitle(json.title + Math.random());
+        let array = [];
+        array.push(json);
+        setBooks(array);
+        setBookNumber(array.length);
+      });
+  }, []);
 
   return (
     <div className="todoapp stack-large">
