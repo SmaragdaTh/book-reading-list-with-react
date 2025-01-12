@@ -46,6 +46,7 @@ function App(props) {
     };
 
     setBooks([bookDataObj, ...books]);
+    setBookNumber(bookNumber + 1);
   };
 
   const editBookHandler = (bookData) => {
