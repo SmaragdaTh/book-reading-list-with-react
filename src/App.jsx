@@ -3,7 +3,7 @@ import Book from "./components/Book";
 import Form from "./components/Form";
 import Filter from "./components/Filter";
 
-const URL = "https://jsonplaceholder.typicode.com/todos/1";
+const URL = "https://jsonplaceholder.typicode.com/todos?_delay=2021";
 
 const BOOKS = [
   {
@@ -35,6 +35,8 @@ function App(props) {
   const [bookNumber, setBookNumber] = useState("");
   const [filter, setFilter] = useState("All");
   const [counter, setCounter] = useState(0);
+  const [title, setTitle] = useState("Waiting...");
+  const [hasMounted, setHasMounted] = useState(false);
 
   const deleteBookHandler = (bookId) => {
     const NEWBOOKS = books.filter((book) => bookId !== book.id);
@@ -101,23 +103,31 @@ function App(props) {
       })
       .then((json) => {
         console.log(json);
-        // setTitle(json.title + Math.random());
-        let array = [];
-        array.push(json);
-        setBooks(array);
-        setBookNumber(array.length);
+        const arrayTodos = json.slice(0, 4);
+        setBooks(arrayTodos);
+        setBookNumber(arrayTodos.length);
       });
   }, []);
+
+  useEffect(() => {
+    if (!hasMounted) {
+      setHasMounted(true);
+      return;
+    }
+
+    const titleTemplateReady2 = `${bookNumber} ${
+      bookNumber == 1 ? "book" : "books"
+    } remaining`;
+
+    setTitle(titleTemplateReady2);
+  }, [bookNumber]);
 
   return (
     <div className="todoapp stack-large">
       <h1>Book reading list</h1>
       <Form onSubmit={submitHandler} />
       <div className="filters btn-group stack-exception">{filtersList}</div>
-
-      <h2 id="list-heading">
-        {bookNumber} {bookNumber == 1 ? "book" : "books"} remaining
-      </h2>
+      <h2 id="list-heading">{title}</h2>
       <ul
         role="list"
         className="todo-list stack-large stack-exception"
