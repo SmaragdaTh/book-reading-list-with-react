@@ -30,7 +30,7 @@ const FILTERS_OBJ = {
 };
 
 function App() {
-  console.log("App()");
+  console.log("App() test");
   const [books, setBooks] = useState([]);
   const bookNumber2 = books.length;
 
@@ -116,7 +116,7 @@ function App() {
     } remaining`;
 
     setTitle(titleTemplateReady2);
-  }, [bookNumber2,hasMounted]);
+  }, [bookNumber2, hasMounted]);
 
   return (
     <div className="todoapp stack-large">
