@@ -29,18 +29,19 @@ const FILTERS_OBJ = {
   Completed: (el) => el.completed == true,
 };
 
-function App() {
+function App(props) {
   console.log("App()");
   const [books, setBooks] = useState([]);
-  const bookNumber2 = books.length;
-
+  const [bookNumber, setBookNumber] = useState("");
   const [filter, setFilter] = useState("All");
+  const [counter, setCounter] = useState(0);
   const [title, setTitle] = useState("Waiting...");
   const [hasMounted, setHasMounted] = useState(false);
 
   const deleteBookHandler = (bookId) => {
     const NEWBOOKS = books.filter((book) => bookId !== book.id);
     setBooks(NEWBOOKS);
+    setBookNumber(NEWBOOKS.length);
   };
 
   const submitHandler = (bookData) => {
@@ -51,6 +52,7 @@ function App() {
     };
 
     setBooks([bookDataObj, ...books]);
+    setBookNumber(bookNumber + 1);
   };
 
   const editBookHandler = (bookData) => {
@@ -100,8 +102,10 @@ function App() {
         return response.json();
       })
       .then((json) => {
+        console.log(json);
         const arrayTodos = json.slice(0, 4);
         setBooks(arrayTodos);
+        setBookNumber(arrayTodos.length);
       });
   }, []);
 
@@ -111,12 +115,12 @@ function App() {
       return;
     }
 
-    const titleTemplateReady2 = `${bookNumber2} ${
-      bookNumber2 == 1 ? "book" : "books"
+    const titleTemplateReady2 = `${bookNumber} ${
+      bookNumber == 1 ? "book" : "books"
     } remaining`;
 
     setTitle(titleTemplateReady2);
-  }, [bookNumber2,hasMounted]);
+  }, [bookNumber]);
 
   return (
     <div className="todoapp stack-large">
